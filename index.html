@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>WiFi Scanner Dashboard</title>
+
+  <!-- Firebase compatibil cu GitHub Pages -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
+
 <body>
-  <h1>WiFi Networks</h1>
-  <pre id="data">Loading...</pre>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<h1>WiFi Networks</h1>
+<pre id="data">Loading...</pre>
 
-   const firebaseConfig = {
-            apiKey: "AIzaSyAMmIn5Ieya3qdcBhEbFjehNa_cjV-ptWI",
-            authDomain: "asir-project-7ef1c.firebaseapp.com",
-            databaseURL: "https://asir-project-7ef1c-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "asir-project-7ef1c",
-            storageBucket: "asir-project-7ef1c.firebasestorage.app",
-            messagingSenderId: "1027306029862",
-            appId: "1:1027306029862:web:d40baead9ac83ca30b77e7"
-    };
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAMmIn5Ieya3qdcBhEbFjehNa_cjV-ptWI",
+    authDomain: "asir-project-7ef1c.firebaseapp.com",
+    databaseURL: "https://asir-project-7ef1c-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "asir-project-7ef1c",
+    storageBucket: "asir-project-7ef1c.appspot.com",
+    messagingSenderId: "1027306029862",
+    appId: "1:1027306029862:web:d40baead9ac83ca30b77e7"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+  firebase.initializeApp(firebaseConfig);
 
-    onValue(ref(db, "wifi"), (snapshot) => {
-      document.getElementById("data").textContent =
-        JSON.stringify(snapshot.val(), null, 2);
-    });
-  </script>
+  var database = firebase.database();
+  var wifiRef = database.ref("wifi");
+
+  wifiRef.on("value", function(snapshot) {
+    document.getElementById("data").textContent =
+      JSON.stringify(snapshot.val(), null, 2);
+  });
+</script>
+
 </body>
 </html>
