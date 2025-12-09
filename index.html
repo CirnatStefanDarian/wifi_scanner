@@ -25,7 +25,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    onValue(ref(db, "wifi_networks"), (snapshot) => {
+    onValue(ref(db, "wifi"), (snapshot) => {
       document.getElementById("data").textContent =
         JSON.stringify(snapshot.val(), null, 2);
     });
