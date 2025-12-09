@@ -3,26 +3,17 @@ name: Deploy to Firebase Hosting
 on:
   push:
     branches:
-      - main  # sau master, depinde ce branch folosești
+      - main  # schimbă dacă folosești alt branch
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'  # minim pentru Firebase CLI
-
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
       - name: Deploy to Firebase Hosting
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          echo "$FIREBASE_SERVICE_ACCOUNT" > ${HOME}/firebase-key.json
-          firebase deploy --only hosting --project asir-project-7ef1c --token "${FIREBASE_SERVICE_ACCOUNT}" 
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          channelId: live  # public site
